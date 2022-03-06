@@ -1,31 +1,33 @@
-#!bin/bash -x
-
-read -p "Enter a value: " n
-head_counts=0;
-tails_counts=0;
-
-for(( i=0;i<=n;i++ ));
+#!/bin/bash
+target_count=21
+heads_count=0
+tails_count=0
+flips_count=0
+while(( 1 ))
 do
-
-	flips=$(( RANDOM % 2))
-
-	if [ $flips -eq 0 ];
-	then 
-		echo "Flip-$i Tails"
-		(( head_counts++ ))
-	else
-   	echo "Flip-$i Heads"
-		(( tails_counts++ ))
-	fi
+    (( flips_count++ ))
+    echo -n "Flip-$flips_count is "
+    toss=$(( RANDOM % 2 ))
+    if(( toss == 0 ))
+    then
+        echo "Heads"
+        (( heads_count++ ))
+    else
+        echo "Tails"
+        (( tails_count++ ))
+    fi
+    if(( heads_count == target_count || tails_count == target_count ))
+    then
+        break
+    fi 
 done
-
 echo "The Heads count is $heads_count and Tails Count is $tails_count"
-if [ $head_counts -gt $tails_counts ];
+if(( heads_count > tails_count ))
 then
-    echo "Winner is Heads"
+    echo "Heads won by $(( heads_count - tails_count ))"
 elif(( tails_count > heads_count ))
 then
-    echo "Winner is Tails"
+    echo "Tails won by $(( tails_count - heads_count ))"
 else    
     echo "Its tie"
 fi
